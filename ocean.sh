@@ -137,7 +137,7 @@ install_node() {
 
     # Run script.py with IP address and number of nodes
     python3 script.py "$ip_address" "$num_nodes"
-
+    docker network create ocean_network
     # Start Docker Compose services for each node
     for ((i=1; i<=num_nodes+1; i++)); do
         docker-compose -f docker-compose$i.yaml up -d
