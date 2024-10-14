@@ -142,9 +142,9 @@ install_node() {
     for ((i=1; i<=num_nodes+1; i++)); do
         docker-compose -f docker-compose$i.yaml up -d
     done
-
+    current_dir=$(pwd)
     # Schedule req.py to run every hour using crontab
-    (crontab -l 2>/dev/null; echo "0 * * * * python3 $(pwd)/req.py $ip_address $pwd") | crontab -
+    (crontab -l 2>/dev/null; echo "0 * * * * python3 $(pwd)/req.py $ip_address $current_dir") | crontab -
 
     echo -e "${GREEN}✅ Node installed successfully.${RESET}"
     echo
