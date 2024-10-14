@@ -9,6 +9,7 @@ YELLOW='\033[1;33m'
 MAGENTA='\033[0;35m'
 RESET='\033[0m'
 
+
 # Icons for menu options
 ICON_TELEGRAM="🚀"
 ICON_INSTALL="🛠️"
