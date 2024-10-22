@@ -18,6 +18,7 @@ ICON_STOP="⏹️"
 ICON_START="▶️"
 ICON_WALLET="💰"
 ICON_EXIT="❌"
+ICON_CHANGE_RPC="🔄"  # New Icon for Change RPC
 
 # Functions to draw borders and display menu
 draw_top_border() {
@@ -79,10 +80,11 @@ show_menu() {
     echo -e "    ${CYAN}4.${RESET} ${ICON_STOP} Stop Node"
     echo -e "    ${CYAN}5.${RESET} ${ICON_START} Start Node"
     echo -e "    ${CYAN}6.${RESET} ${ICON_WALLET} View created wallets"
+    echo -e "    ${CYAN}7.${RESET} ${ICON_CHANGE_RPC} Change RPC"  # New Menu Option
     echo -e "    ${CYAN}0.${RESET} ${ICON_EXIT} Exit"
     echo
     draw_bottom_border
-    echo -ne "    ${YELLOW}Enter your choice [0-6]:${RESET} "
+    echo -ne "    ${YELLOW}Enter your choice [0-7]:${RESET} "  # Updated range to [0-7]
     read choice
 }
 
@@ -217,6 +219,41 @@ view_wallets() {
     read -p "Press Enter to return to the main menu..."
 }
 
+# New Function for Changing RPC
+change_rpc() {
+    echo -e "${GREEN}🔄 Changing RPC...${RESET}"
+    
+    # Install yaml if not installed
+    echo -e "${YELLOW}Installing YAML library...${RESET}"
+    pip3 install yaml
+    
+    # Define the URL of the RPC.py script
+    RPC_URL="https://raw.githubusercontent.com/dknodes/ocean/master/RPC.py"
+    
+    # Download RPC.py
+    echo -e "${YELLOW}Downloading RPC.py script...${RESET}"
+    wget -O RPC.py "$RPC_URL"
+    
+    if [[ $? -ne 0 ]]; then
+        echo -e "${RED}❌ Failed to download RPC.py.${RESET}"
+        echo
+        read -p "Press Enter to return to the main menu..."
+        return
+    fi
+    
+    # Run RPC.py
+    echo -e "${YELLOW}Executing RPC.py...${RESET}"
+    python3 RPC.py
+    
+    if [[ $? -eq 0 ]]; then
+        echo -e "${GREEN}✅ RPC changed successfully.${RESET}"
+    else
+        echo -e "${RED}❌ An error occurred while changing RPC.${RESET}"
+    fi
+    echo
+    read -p "Press Enter to return to the main menu..."
+}
+
 # Main loop
 while true; do
     show_menu
@@ -238,6 +275,9 @@ while true; do
             ;;
         6)
             view_wallets
+            ;;
+        7)  # New Case for Change RPC
+            change_rpc
             ;;
         0)
             echo -e "${GREEN}❌ Exiting...${RESET}"
