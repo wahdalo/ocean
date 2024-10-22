@@ -203,9 +203,17 @@ start_node() {
     for ((i=1; i<=num_nodes+1; i++)); do
         docker-compose -f docker-compose$i.yaml up -d
     done
-
+    
+    ip_address=$(hostname -I | awk '{print $1}')
+    if [[ -z "$ip_address" ]]; then
+        echo -ne "${YELLOW}Unable to determine IP address automatically.${RESET}"
+        echo -ne "${YELLOW} Please enter the IP address:${RESET} "
+        read ip_address
+    fi
+    
+    current_dir=$(pwd)
     # Schedule req.py to run every hour using crontab
-    (crontab -l 2>/dev/null; echo "0 * * * * python3 $(pwd)/req.py $ip_address") | crontab -
+    (crontab -l 2>/dev/null; echo "0 * * * * python3 $(pwd)/req.py $ip_address $current_dir") | crontab -
 
     echo -e "${GREEN}✅ Nodes started and crontab entry added.${RESET}"
     echo
