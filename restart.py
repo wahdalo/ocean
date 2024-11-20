@@ -148,7 +148,7 @@ def execute_docker_compose(port, cwd):
         command = ["docker", "restart", "ocean-node"]
         node_info = "ocean-node"
     # else if port greater than 3008 skipped
-    elif port > 3009 or port == 3008:
+    elif port > 3005: # or port == 3008:
         # logger.warning(f"Port {port} is greater than 3008. Skipping.")
         return False
     else:
