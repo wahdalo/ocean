@@ -58,6 +58,7 @@ def fetch_nodes():
         response.raise_for_status()
         data = response.json()
         nodes = data.get('nodes', [])
+        nodes = [node for node in nodes if node['_source']['uptime'] > 0]
         nodes = [node for node in nodes if 3001 <= node['_source']['ipAndDns']['port'] <= 3005] # and node['_source']['ipAndDns']['port'] != 3008]
         logger.info(f"Retrieved {len(nodes)} nodes from API.")
         return nodes
