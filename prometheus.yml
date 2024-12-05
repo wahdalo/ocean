@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s # By default, scrape targets every 15 seconds.
+
+scrape_configs:
+  # Example job for node_exporter
+  - job_name: 'node_exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['###.###.###.###:9100']
