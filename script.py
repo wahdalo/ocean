@@ -121,9 +121,11 @@ rpcs = {
 rpcs_json = json.dumps(rpcs)
 
 def create_ocean_node_compose(wallet, i, ip_address):
-    http_api_port = 2002 + i
-    p2p_tcp_port = 3002 + i
-    p2p_ws_port = 4002 + i
+    http_api_port = 20000 + i
+    p2p_ipV4_tcp_port = 30000 + i
+    p2p_ipV4_ws_port = 40000 + i
+    p2p_ipV6_tcp_port = 30000 + i
+    p2p_ipV6_ws_port = 40000 + i
     docker_compose_template = f"""
 services:
   ocean-node{i}:
@@ -132,11 +134,11 @@ services:
     container_name: ocean-node-{i}
     restart: on-failure
     ports:
-      - "{2002 + i}:{2002 + i}"
-      - "{3002 + i}:{3002 + i}"
-      - "{4002 + i}:{4002 + i}"
-      - "{5002 + i}:{5002 + i}"
-      - "{6002 + i}:{6002 + i}"
+      - "{20000 + i}:{20000 + i}"
+      - "{30000 + i}:{30000 + i}"
+      - "{40000 + i}:{40000 + i}"
+      - "{50000 + i}:{50000 + i}"
+      - "{60000 + i}:{60000 + i}"
     environment:
       PRIVATE_KEY: '{wallet['private_key']}'
       RPCS: '{rpcs_json}'
@@ -146,11 +148,16 @@ services:
       INTERFACES: '["HTTP","P2P"]'
       ALLOWED_ADMINS: '["{wallet['address']}"]'
       HTTP_API_PORT: '{http_api_port}'
+      INDEXER_NETWORKS: '[]'
       P2P_ENABLE_IPV4: 'true'
       P2P_ipV4BindAddress: '0.0.0.0'
-      P2P_ipV4BindTcpPort: '{p2p_tcp_port}'
-      P2P_ipV4BindWsPort: '{p2p_ws_port}'
-      P2P_ANNOUNCE_ADDRESSES: '["/ip4/{ip_address}/tcp/{p2p_tcp_port}", "/ip4/{ip_address}/ws/tcp/{p2p_ws_port}"]'
+      P2P_ipV4BindTcpPort: '{p2p_ipV4_tcp_port}'
+      P2P_ipV4BindWsPort: '{p2p_ipV4_ws_port}'
+      P2P_ENABLE_IPV6: 'false'
+      P2P_ipV6BindAddress: '::'
+      P2P_ipV6BindTcpPort: '{p2p_ipV6_tcp_port}'
+      P2P_ipV6BindWsPort: '{p2p_ipV6_ws_port}'
+      P2P_ANNOUNCE_ADDRESSES: '["/ip4/{ip_address}/tcp/{p2p_ipV4_tcp_port}", "/ip4/{ip_address}/ws/tcp/{p2p_ipV4_ws_port}"]'
     networks:
       - ocean_network
 
