@@ -146,7 +146,8 @@ install_node() {
     done
     current_dir=$(pwd)
     # Schedule req.py to run every hour using crontab
-    (crontab -l 2>/dev/null; echo "0 */2 * * * python3 $(pwd)/restart.py $ip_address $current_dir") | crontab -
+    (crontab -l 2>/dev/null; echo "*/30 * * * * python3 $(pwd)/restart.py $(hostname -I | awk '{print $1}') $(pwd)") | crontab -
+    # (crontab -l 2>/dev/null; echo "0 */1 * * * python3 /root/ocean/restart.py 185.245.183.243 /root/ocean") | crontab -
 
     echo -e "${GREEN}✅ Node installed successfully.${RESET}"
     echo
@@ -213,7 +214,7 @@ start_node() {
     
     current_dir=$(pwd)
     # Schedule req.py to run every hour using crontab
-    (crontab -l 2>/dev/null; echo "0 */3 * * * python3 $(pwd)/restart.py $ip_address $current_dir") | crontab -
+    (crontab -l 2>/dev/null; echo "0 * * * * python3 $(pwd)/req.py $ip_address $current_dir") | crontab -
 
     echo -e "${GREEN}✅ Nodes started and crontab entry added.${RESET}"
     echo
