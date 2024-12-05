@@ -165,8 +165,8 @@ networks:
   ocean_network:
     external: true
 """
-    save_docker_compose_file(docker_compose_template, i + 1)
-    print(f"Generated docker-compose{i + 1}.yaml for ocean-node-{i}")
+    save_docker_compose_file(docker_compose_template, i)
+    print(f"Generated docker-compose{i}.yaml for ocean-node-{i}")
 
 def save_docker_compose_file(content, i):
     filename = f'docker-compose{i}.yaml'
@@ -183,7 +183,7 @@ def main():
 
     wallets = generate_wallets(num_files)
     save_wallets_to_json(wallets)
-    create_typesense_compose()
+    # create_typesense_compose()
 
     for i, wallet in enumerate(wallets, start=1):
         create_ocean_node_compose(wallet, i, ip_address)
