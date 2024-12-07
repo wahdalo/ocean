@@ -148,7 +148,8 @@ services:
       INTERFACES: '["HTTP","P2P"]'
       ALLOWED_ADMINS: '["{wallet['address']}"]'
       HTTP_API_PORT: '{http_api_port}'
-      INDEXER_NETWORKS: '[]'
+      INDEXER_NETWORKS: '[10]'
+      DASHBOARD: 'true'
       P2P_ENABLE_IPV4: 'true'
       P2P_ipV4BindAddress: '0.0.0.0'
       P2P_ipV4BindTcpPort: '{p2p_ipV4_tcp_port}'
@@ -158,6 +159,7 @@ services:
       P2P_ipV6BindTcpPort: '{p2p_ipV6_tcp_port}'
       P2P_ipV6BindWsPort: '{p2p_ipV6_ws_port}'
       P2P_ANNOUNCE_ADDRESSES: '["/ip4/{ip_address}/tcp/{p2p_ipV4_tcp_port}", "/ip4/{ip_address}/ws/tcp/{p2p_ipV4_ws_port}"]'
+      
     networks:
       - ocean_network
 
@@ -183,7 +185,7 @@ def main():
 
     wallets = generate_wallets(num_files)
     save_wallets_to_json(wallets)
-    # create_typesense_compose()
+    create_typesense_compose()
 
     for i, wallet in enumerate(wallets, start=1):
         create_ocean_node_compose(wallet, i, ip_address)
