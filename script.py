@@ -27,7 +27,7 @@ services:
     image: typesense/typesense:26.0
     container_name: typesense
     ports:
-      - "8108:8108"
+      - "8118:8108"
     environment:
       TYPESENSE_API_KEY: '{typesense_api_key}'
       ADMIN_PASSWORD: '{admin_password}'
